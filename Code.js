@@ -1,3 +1,26 @@
+system.runInterval(() => {
+    world.getPlayers().forEach((player) => {
+        const location = player.location
+        const spawnPoints = generateSpawnPoints(location, 20 /*radius*/, 20 /*number of spawns*/)
+        spawnPoints.forEach((point) => {
+            player.dimension.spawnEntity("zombie", point)
+        })
+    })
+},12000);
+
+
+function generateSpawnPoints(center, radius, numPoints){
+    const spawnPoints = [];
+
+    for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * 2 * Math.PI;
+        const x = center.x + radius * Math.cos(angle);
+        const z = center.z + radius * Math.sin(angle);
+        spawnPoints.push({ x, center.y, z });
+    }
+    return spawnPoints;
+}
+
 export function getjob(player) {
     const job = player
       .getTags()
